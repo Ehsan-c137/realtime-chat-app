@@ -2,13 +2,14 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import { db } from "@/lib/db";
+import { fetchRedis } from "./utils/redis";
 
 // export const authOptions: NextAuthOptions = {
 //    adapter: UpstashRedisAdapter(db),
 
 const getGoogleCredentials = () => {
-   const clientId = process.env.GOOGLE_CLIENT_ID;
-   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
+   const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+   const clientSecret = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
 
    if (!clientId || clientId.length === 0) {
       throw new Error("Missing Google_Client_ID");
@@ -24,7 +25,7 @@ const getGoogleCredentials = () => {
 };
 
 export const authOptions: NextAuthOptions = {
-   secret: process.env.AUTH_SECRET,
+   secret: process.env.NEXTAUTH_SECRET,
    adapter: UpstashRedisAdapter(db),
    session: {
       strategy: "jwt",
@@ -40,12 +41,18 @@ export const authOptions: NextAuthOptions = {
    ],
    callbacks: {
       async jwt({ token, user }) {
-         const dbUser = (await db.get(`user:${token.id}`)) as User | null;
+         // const dbUser = (await db.get(`user:${token.id}`)) as User | null;
+         const dbUserResult = (await fetchRedis("get", `user:${token.id}`)) as
+            | string
+            | null;
 
-         if (!dbUser) {
+         if (!dbUserResult) {
             token.id = user!.id;
+            console.log(`returning token`, token);
             return token;
          }
+
+         const dbUser = JSON.parse(dbUserResult) as User;
 
          return {
             id: dbUser.id,
