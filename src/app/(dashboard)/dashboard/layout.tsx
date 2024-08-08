@@ -1,11 +1,13 @@
 import { authOptions } from "@/auth";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
-import { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 import Link from "next/link";
 import { Icons, TIcon } from "@/components/Icon";
 import Image from "next/image";
 import SignOutButton from "@/components/SignOutButton";
+import FriendRequestSidebarOption from "@/components/FriendRequestSidebarOption";
+import { fetchRedis } from "@/utils/redis";
 
 interface LayoutProps {
    children: ReactNode;
@@ -27,12 +29,20 @@ const sidebarOptions: SidebarOption[] = [
    },
 ];
 
-const layout = async ({ children }: LayoutProps) => {
+export default async function Layout({ children }: { children: ReactNode }) {
    const session = await getServerSession(authOptions);
+
    if (!session) notFound();
 
+   const unseenRequestCount = (
+      (await fetchRedis(
+         "smembers",
+         `user:${session.user.id}:incoming_friend_requests`
+      )) as User[]
+   ).length;
+
    return (
-      <div className="w-full flex h-screen">
+      <div className="w-full flex h-screen bg-white">
          <div className="flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 px-6 py-4 bg-white">
             <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
                <Icons.Logo className="h-8 w-auto text-indigo-600" />
@@ -68,6 +78,12 @@ const layout = async ({ children }: LayoutProps) => {
                         })}
                      </ul>
                   </li>
+                  <li>
+                     <FriendRequestSidebarOption
+                        sessionId={session.user.id}
+                        initialUnseenRequestCount={unseenRequestCount}
+                     />
+                  </li>
                   <li className="-mx-6 mt-auto flex items-center">
                      <div className="flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900">
                         <div className="relative w-8 h-8 bg-gray-50">
@@ -102,6 +118,4 @@ const layout = async ({ children }: LayoutProps) => {
          {children}
       </div>
    );
-};
-
-export default layout;
+}
