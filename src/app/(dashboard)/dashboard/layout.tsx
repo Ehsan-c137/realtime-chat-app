@@ -11,7 +11,7 @@ import { fetchRedis } from "@/utils/redis";
 import { getFriendsByUserId } from "@/utils/get-friends-by-user-id";
 import SidebarChatList from "@/components/SidebarChatList";
 import { SidebarOption } from "@/types/typing";
-// import MobileChatLayout from "@/components/MobileChatLayout";
+import MobileChatLayout from "@/components/MobileChatLayout";
 
 interface LayoutProps {
    children: ReactNode;
@@ -48,14 +48,16 @@ const Layout = async ({ children }: LayoutProps) => {
 
    return (
       <div className="w-full flex h-screen">
-         {/* <div className="md:hidden">
+         <div className="md:hidden">
             <MobileChatLayout
                friends={friends}
                session={session}
                sidebarOptions={sidebarOptions}
                unseenRequestCount={unseenRequestCount}
-            />
-         </div> */}
+            >
+               {children}
+            </MobileChatLayout>
+         </div>
 
          <div className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
             <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
@@ -112,8 +114,8 @@ const Layout = async ({ children }: LayoutProps) => {
                      </ul>
                   </li>
 
-                  <li className="-mx-6 mt-auto flex items-center">
-                     <div className="flex flex-1 items-center gap-x-4 px-6 py-3 text-sm font-semibold leading-6 text-gray-900">
+                  <li className="mt-auto flex items-center">
+                     <div className="flex flex-1 items-center gap-x-4 py-3 text-sm font-semibold leading-6 text-gray-900">
                         <div className="relative h-8 w-8 bg-gray-50">
                            <Image
                               fill
@@ -142,7 +144,7 @@ const Layout = async ({ children }: LayoutProps) => {
             </nav>
          </div>
 
-         <aside className="max-h-screen container py-16 bg-white md:py-12 w-full">
+         <aside className="max-h-screen px-4 sm:px-6 lg:px-8 py-16 bg-white md:py-12 w-full">
             {children}
          </aside>
       </div>
