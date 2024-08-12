@@ -12,4 +12,4 @@ export const Icons = {
    UserPlus,
 };
 
-export type TIcon = keyof typeof Icons;
+export type Icon = keyof typeof Icons;
