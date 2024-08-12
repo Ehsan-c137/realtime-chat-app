@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 type FormData = z.infer<typeof addFriendValidator>;
 
 export default function AddFriendButton() {
-   // const [showSucessMessage, setShowSucessMessage] = useState(false);
+   const [showSucessMessage, setShowSucessMessage] = useState(false);
 
    const {
       register,
@@ -27,6 +27,8 @@ export default function AddFriendButton() {
          const validatedEmail = addFriendValidator.parse({ email });
 
          await axios.post("/api/friends/add", { email: validatedEmail });
+
+         setShowSucessMessage(true);
       } catch (error) {
          if (error instanceof z.ZodError) {
             console.log(error.message);
@@ -64,6 +66,9 @@ export default function AddFriendButton() {
             <button> Add</button>
          </div>
          <p className="mt-1 text-sm text-green-600">{errors.email?.message}</p>
+         {showSucessMessage && (
+            <p className="mt-1 text-sm text-green-600">Friend request sent!</p>
+         )}
       </form>
    );
 }
