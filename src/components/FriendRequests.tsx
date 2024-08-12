@@ -1,9 +1,11 @@
 "use client";
 
 import { Check, UserPlus, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { pusherClient } from "@/lib/pusher";
+import { toPusherKey } from "@/lib/utils";
 
 interface IProps {
    incomingFriendRequest: IncomingFriendRequest[];
@@ -34,6 +36,28 @@ const FriendRequests = ({ incomingFriendRequest, sessionId }: IProps) => {
 
       router.refresh();
    };
+
+   useEffect(() => {
+      pusherClient.subscribe(
+         toPusherKey(`user:${sessionId}:incoming_friend_requests`)
+      );
+
+      const friendRequestHandler = ({
+         senderId,
+         senderEmail,
+      }: IncomingFriendRequest) => {
+         setFriendRequest((prev) => [...prev, { senderEmail, senderId }]);
+      };
+
+      pusherClient.bind("incoming_friend_requests", friendRequestHandler);
+
+      return () => {
+         pusherClient.unsubscribe(
+            toPusherKey(`user:${sessionId}:incoming_friend_requests`)
+         );
+         pusherClient.unbind("incoming_friend_requests", friendRequestHandler);
+      };
+   }, [sessionId]);
 
    return (
       <>
