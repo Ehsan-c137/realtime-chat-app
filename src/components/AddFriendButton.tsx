@@ -31,7 +31,6 @@ export default function AddFriendButton() {
          setShowSucessMessage(true);
       } catch (error) {
          if (error instanceof z.ZodError) {
-            console.log(error.message);
             setError("email", { message: error.message });
             return;
          }
