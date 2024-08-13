@@ -6,18 +6,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FC, ReactNode } from "react";
-import FriendRequestSidebarOption from "@/components/FriendRequestSidebarOption";
 import { fetchRedis } from "@/utils/redis";
 import { getFriendsByUserId } from "@/utils/get-friends-by-user-id";
 import SidebarChatList from "@/components/SidebarChatList";
-import { SidebarOption } from "@/types/typing";
 import MobileChatLayout from "@/components/MobileChatLayout";
+import { SidebarOption } from "@/types/typing";
+import FriendRequestSidebarOptions from "@/components/FriendRequestSidebarOption";
 
 interface LayoutProps {
    children: ReactNode;
 }
 
-// Done after the video and optional: add page metadata
 export const metadata = {
    title: "FriendZone | Dashboard",
    description: "Your dashboard",
@@ -37,7 +36,6 @@ const Layout = async ({ children }: LayoutProps) => {
    if (!session) notFound();
 
    const friends = await getFriendsByUserId(session.user.id);
-   console.log("friends", friends);
 
    const unseenRequestCount = (
       (await fetchRedis(
@@ -54,12 +52,10 @@ const Layout = async ({ children }: LayoutProps) => {
                session={session}
                sidebarOptions={sidebarOptions}
                unseenRequestCount={unseenRequestCount}
-            >
-               {children}
-            </MobileChatLayout>
+            />
          </div>
 
-         <div className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6">
+         <div className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white pl-6 pr-2">
             <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
                <Icons.Logo className="h-8 w-auto text-indigo-600" />
             </Link>
@@ -85,8 +81,7 @@ const Layout = async ({ children }: LayoutProps) => {
 
                      <ul role="list" className="-mx-2 mt-2 space-y-1">
                         {sidebarOptions.map((option) => {
-                           const Icon = Icons[option.Icon];
-
+                           const Icon = Icons[option.Icon as Icon];
                            return (
                               <li key={option.id}>
                                  <Link
@@ -106,7 +101,7 @@ const Layout = async ({ children }: LayoutProps) => {
                         })}
 
                         <li>
-                           <FriendRequestSidebarOption
+                           <FriendRequestSidebarOptions
                               sessionId={session.user.id}
                               initialUnseenRequestCount={unseenRequestCount}
                            />
@@ -114,7 +109,7 @@ const Layout = async ({ children }: LayoutProps) => {
                      </ul>
                   </li>
 
-                  <li className="mt-auto flex items-center">
+                  <li className="mt-auto flex items-center justify-between">
                      <div className="flex flex-1 items-center gap-x-4 py-3 text-sm font-semibold leading-6 text-gray-900">
                         <div className="relative h-8 w-8 bg-gray-50">
                            <Image
@@ -138,13 +133,13 @@ const Layout = async ({ children }: LayoutProps) => {
                         </div>
                      </div>
 
-                     <SignOutButton className="h-full aspect-square" />
+                     <SignOutButton className="p-3 aspect-square" />
                   </li>
                </ul>
             </nav>
          </div>
 
-         <aside className="max-h-screen px-4 sm:px-6 lg:px-8 py-16 bg-white md:py-12 w-full">
+         <aside className="max-h-screen  md:px-12 py-14  md:py-0 w-full">
             {children}
          </aside>
       </div>
