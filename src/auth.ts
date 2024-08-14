@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
             params: {
                scope: "openid email profile",
                prompt: "select_account",
-               access_type: "offline", // If refresh tokens are needed
+               // access_type: "offline", // If refresh tokens are needed
                response_type: "code", // Response type for authorization code
             },
          },
