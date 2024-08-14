@@ -37,6 +37,15 @@ export const authOptions: NextAuthOptions = {
       GoogleProvider({
          clientId: getGoogleCredentials().clientId,
          clientSecret: getGoogleCredentials().clientSecret,
+         authorization: {
+            url: "https://accounts.google.com/o/oauth2/v2/auth",
+            params: {
+               scope: "openid email profile",
+               prompt: "select_account",
+               access_type: "offline", // If refresh tokens are needed
+               response_type: "code", // Response type for authorization code
+            },
+         },
       }),
    ],
    callbacks: {
@@ -70,7 +79,9 @@ export const authOptions: NextAuthOptions = {
 
          return session;
       },
-      redirect: () => "/dashboard",
+      redirect: async ({ url, baseUrl }) => {
+         return url.startsWith(baseUrl) ? url : `${baseUrl}/dashboard`;
+      },
    },
 };
 
