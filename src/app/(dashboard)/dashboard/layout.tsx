@@ -18,7 +18,7 @@ interface LayoutProps {
 }
 
 export const metadata = {
-   title: "FriendZone | Dashboard",
+   title: "Dashboard",
    description: "Your dashboard",
 };
 
