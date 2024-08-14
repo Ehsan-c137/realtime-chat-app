@@ -11,7 +11,6 @@ import {
 import { SidebarOption } from "@/types/typing";
 import { X } from "lucide-react";
 import { type Session } from "next-auth";
-import Link from "next/link";
 import Button from "./ui/Button";
 import SignOutButton from "./SignOutButton";
 import FriendRequestSidebarOptions from "./FriendRequestSidebarOption";
@@ -19,6 +18,7 @@ import SidebarChatList from "./SidebarChatList";
 import { type Icon, Icons } from "@/components/Icon";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface IProps {
    friends: User[];
@@ -42,10 +42,14 @@ export default function MobileChatLayout({
 
    return (
       <div className="fixed bg-zinc-50 border-zinc-200 top-0 inset-x-0 py-2 px-4">
-         <div className="w-full flex justify-between items-center">
+         <div className="w-full flex justify-between items-center text-black">
             <Link href="/dashboard">Dashboard</Link>
 
-            <Button variant="ghost" onClick={() => setOpen(true)}>
+            <Button
+               variant="ghost"
+               onClick={() => setOpen(true)}
+               className="text-black bg-black"
+            >
                Menu
             </Button>
          </div>
@@ -67,7 +71,7 @@ export default function MobileChatLayout({
                               <button
                                  type="button"
                                  onClick={() => setOpen(false)}
-                                 className="relative rounded-md text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+                                 className="relative rounded-md text-black hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
                               >
                                  <span className="absolute -inset-2.5" />
                                  <span className="sr-only">Close panel</span>
@@ -77,9 +81,12 @@ export default function MobileChatLayout({
                         </TransitionChild>
                         <div className="flex h-full flex-col overflow-y-scroll bg-white py-1 px-4 shadow-xl">
                            <div className="sm:px-6">
-                              <DialogTitle className="text-base p-4 px-2 font-semibold leading-6 text-gray-900">
+                              <Link
+                                 href={"/dashboard"}
+                                 className="text-base text-black p-4 px-2 font-semibold leading-6"
+                              >
                                  Dashboard
-                              </DialogTitle>
+                              </Link>
                            </div>
                            {friends.length > 0 && (
                               <div className="text-xs font-semibold leading-6 text-gray-400 px-2 mt-4">
