@@ -79,7 +79,7 @@ export default function MobileChatLayout({
                               </button>
                            </div>
                         </TransitionChild>
-                        <div className="flex h-full flex-col overflow-y-scroll bg-white py-1 px-4 shadow-xl">
+                        <div className="flex h-full flex-col overflow-y-scroll bg-white p-4 shadow-xl">
                            <div className="sm:px-6">
                               <Link
                                  href={"/dashboard"}
