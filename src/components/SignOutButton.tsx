@@ -17,7 +17,6 @@ const SignOutButton = ({ ...props }) => {
       setIsSigningOut(true);
       try {
          await signOut();
-         revalidatePath("/dashboard");
       } catch (error) {
          toast.error((error as Error).message);
       } finally {
@@ -30,7 +29,12 @@ const SignOutButton = ({ ...props }) => {
          {isSigningOut ? (
             <Loader2 className="w-4 h-4 animate-spin" />
          ) : (
-            <LogOut className="w-10 h-10" />
+            <LogOut
+               className="w-10 h-10 text-black"
+               style={{
+                  color: "black",
+               }}
+            />
          )}
       </Button>
    );
