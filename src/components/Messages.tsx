@@ -51,6 +51,10 @@ const Messages: FC<MessagesProps> = ({
       <div
          id="messages"
          className="flex h-full flex-1 flex-col-reverse gap-4 p-3 overflow-y-auto scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch"
+         style={{
+            backgroundImage:
+               "linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%)",
+         }}
       >
          <div ref={scrollDownRef} />
 
