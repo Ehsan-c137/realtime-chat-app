@@ -35,7 +35,7 @@ export default async function Dashboard() {
    );
 
    return (
-      <div className="container py-12">
+      <div className="container pt-20">
          <h1 className="font-bold md:text-5xl text-xl text-black mb-8">
             Recent chats
          </h1>
