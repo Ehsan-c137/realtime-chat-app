@@ -43,7 +43,7 @@ export default function MobileChatLayout({
 
    return (
       <div className="fixed z-10 bg-zinc-50 border-zinc-200 top-0 w-full inset-x-0 py-2 px-4">
-         <div className="fixed top-0 left-0 px-4  w-full flex justify-between items-center text-black">
+         <div className="sticky top-0 left-0 px-4  w-full flex justify-between items-center text-black">
             <button
                className={`${styles.menu} ${open ? styles.opened : ""}`}
                onClick={() => setOpen(true)}
