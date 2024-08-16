@@ -19,6 +19,7 @@ import { type Icon, Icons } from "@/components/Icon";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import styles from "./MobileChatLayout.module.css";
 
 interface IProps {
    friends: User[];
@@ -43,15 +44,27 @@ export default function MobileChatLayout({
    return (
       <div className="fixed bg-zinc-50 border-zinc-200 top-0 inset-x-0 py-2 px-4">
          <div className="w-full flex justify-between items-center text-black">
-            <Link href="/dashboard">Dashboard</Link>
-
-            <Button
-               variant="ghost"
+            <button
+               className={`${styles.menu} ${open ? styles.opened : ""}`}
                onClick={() => setOpen(true)}
-               className="text-black bg-black"
+               aria-label="Main Menu"
             >
-               Menu
-            </Button>
+               <svg width="45" height="45" viewBox="0 0 100 100">
+                  <path
+                     className={`${styles.line} ${styles.line1}`}
+                     d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"
+                  />
+                  <path
+                     d="M 20,50 H 80"
+                     className={`${styles.line} ${styles.line2}`}
+                  />
+                  <path
+                     className={`${styles.line} ${styles.line3}`}
+                     d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"
+                  />
+               </svg>
+            </button>
+            <Link href="/dashboard">Dashboard</Link>
          </div>
          <Dialog open={open} onClose={setOpen} className="relative z-10">
             <DialogBackdrop
