@@ -46,16 +46,16 @@ const Layout = async ({ children }: LayoutProps) => {
 
    return (
       <div className="w-full flex h-screen">
-         <div className="md:hidden">
+         <aside className="md:hidden">
             <MobileChatLayout
                friends={friends}
                session={session}
                sidebarOptions={sidebarOptions}
                unseenRequestCount={unseenRequestCount}
             />
-         </div>
+         </aside>
 
-         <div className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white pl-6 pr-2">
+         <aside className="hidden md:flex h-full w-full max-w-xs grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white pl-6 pr-2">
             <Link href="/dashboard" className="flex h-16 shrink-0 items-center">
                <Icons.Logo className="h-8 w-auto text-indigo-600" />
             </Link>
@@ -137,9 +137,9 @@ const Layout = async ({ children }: LayoutProps) => {
                   </li>
                </ul>
             </nav>
-         </div>
+         </aside>
 
-         <aside className="max-h-screen bg-white  w-full">{children}</aside>
+         <main className="max-h-screen bg-white  w-full">{children}</main>
       </div>
    );
 };
