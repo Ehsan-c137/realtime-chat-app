@@ -4,9 +4,6 @@ import { UpstashRedisAdapter } from "@next-auth/upstash-redis-adapter";
 import { db } from "@/lib/db";
 import { fetchRedis } from "./utils/redis";
 
-// export const authOptions: NextAuthOptions = {
-//    adapter: UpstashRedisAdapter(db),
-
 const getGoogleCredentials = () => {
    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
    const clientSecret = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_SECRET;
