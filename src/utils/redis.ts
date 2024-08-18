@@ -1,5 +1,3 @@
-import auth from "@/auth";
-
 const upstashRedisRestUrl = process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_URL;
 const authToken = process.env.NEXT_PUBLIC_UPSTASH_REDIS_REST_TOKEN;
 
