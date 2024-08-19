@@ -57,18 +57,39 @@ const Messages: FC<MessagesProps> = ({
          }}
       >
          <div ref={scrollDownRef} />
-
          {messages.map((message, index) => {
             const isCurrentUser = message.senderId === sessionId;
 
+            const prevMessage = messages[index - 1];
+            const curMessage = messages[index];
+
             const hasNextMessageFromSameUser =
-               messages[index - 1]?.senderId === messages[index].senderId;
+               prevMessage?.senderId === curMessage?.senderId;
+
+            const isSameDay =
+               new Date(messages[index].timestamp).toLocaleDateString() ===
+               new Date(messages[index + 1]?.timestamp).toLocaleDateString();
 
             return (
                <div
-                  className="chat-message"
+                  className={cn("chat-message")}
                   key={`${message.id}-${message.timestamp}`}
                >
+                  <div
+                     className={cn("flex justify-center items-center mb-2", {
+                        "!hidden": isSameDay,
+                     })}
+                  >
+                     <p className="py-1 px-2 rounded-3xl bg-gray-200 text-xs text-black">
+                        {new Date(message.timestamp).toLocaleDateString(
+                           "en-US",
+                           {
+                              day: "numeric",
+                              month: "short",
+                           }
+                        )}
+                     </p>
+                  </div>
                   <div
                      className={cn("flex items-end", {
                         "justify-end": isCurrentUser,
@@ -93,10 +114,11 @@ const Messages: FC<MessagesProps> = ({
                                  !hasNextMessageFromSameUser && !isCurrentUser,
                            })}
                         >
-                           {message.text}{" "}
+                           {message.text}
                            <span className="ml-2 text-xs text-gray-400">
                               {formatTimestamp(message.timestamp)}
                            </span>
+                           <span></span>
                         </span>
                      </div>
 
