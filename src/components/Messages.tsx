@@ -97,7 +97,7 @@ const Messages: FC<MessagesProps> = ({
                   >
                      <div
                         className={cn(
-                           "flex flex-col space-y-2 text-base max-w-xs mx-2",
+                           "flex flex-col relative space-y-2 text-base max-w-xs mx-2",
                            {
                               "order-1 items-end": isCurrentUser,
                               "order-2 items-start": !isCurrentUser,
@@ -105,20 +105,24 @@ const Messages: FC<MessagesProps> = ({
                         )}
                      >
                         <span
-                           className={cn("px-4 py-2 rounded-lg inline-block", {
-                              "bg-indigo-600 text-white": isCurrentUser,
-                              "bg-gray-200 text-gray-900": !isCurrentUser,
-                              "rounded-br-none":
-                                 !hasNextMessageFromSameUser && isCurrentUser,
-                              "rounded-bl-none":
-                                 !hasNextMessageFromSameUser && !isCurrentUser,
-                           })}
+                           className={cn(
+                              "pl-2 pr-4 pt-2 pb-5 rounded-lg inline-block",
+                              {
+                                 "bg-indigo-600 text-white": isCurrentUser,
+                                 "bg-gray-200 text-gray-900": !isCurrentUser,
+                                 "rounded-br-none":
+                                    !hasNextMessageFromSameUser &&
+                                    isCurrentUser,
+                                 "rounded-bl-none":
+                                    !hasNextMessageFromSameUser &&
+                                    !isCurrentUser,
+                              }
+                           )}
                         >
                            {message.text}
-                           <span className="ml-2 text-xs text-gray-400">
+                           <span className="ml-2 text-xs text-gray-400 absolute right-1 bottom-1">
                               {formatTimestamp(message.timestamp)}
                            </span>
-                           <span></span>
                         </span>
                      </div>
 
