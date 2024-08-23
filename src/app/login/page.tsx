@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import { Icons } from "@/components/Icon";
 import style from "./login.module.css";
+import { isLastDayOfMonth } from "date-fns";
 
 const Page: FC = () => {
    const [isLaoding, setIsLoading] = useState(false);
@@ -36,7 +37,7 @@ const Page: FC = () => {
                   onClick={loginWithGoogle}
                   isLoading={isLaoding}
                   variant={"ghost"}
-                  className="max-w-sm mx-auto w-full bg-blue-500"
+                  className="max-w-sm mx-auto w-full bg-blue-600"
                   type="button"
                >
                   <Icons.GoogleIcon />
