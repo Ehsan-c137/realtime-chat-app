@@ -7,7 +7,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
    title: "Realtime chat",
-   description: "",
+   description: "Realtime Chat",
+   manifest: "./manifest.json",
 };
 
 export default function RootLayout({
